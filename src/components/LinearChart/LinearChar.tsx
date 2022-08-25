@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { initConverter, prepareData } from "./converter";
+import { prepareData, initConverterOneLine } from './converter';
 import rawData from '../../data/total_hour.json';
 import { getTicks } from "./utils";
 import CustomAxisTick from './CustomAxisTick';
@@ -26,7 +26,7 @@ interface LinearGraphProps {
 }
 
 const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels }) => {
-  const data = initConverter(rawData);
+  const data = initConverterOneLine(rawData);
   if(labels) data.labels = labels
   const dataset = prepareData({ ...data })
 

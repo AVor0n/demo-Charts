@@ -1,8 +1,11 @@
 import { ChartDataItem } from "../../types/ChartData";
-import rawData from '../../data/total_hour.json';
+import rawSingleData from '../../data/total_hour.json';
+import rawMultiData from '../../data/severity_hour.json';
 import { InitialData } from "../../types/RawData";
+import { PropsOfType } from "../../types/PropsOfType";
 
-export function initConverter(raw: typeof rawData): InitialData {
+
+export function initConverterOneLine(raw: typeof rawSingleData): InitialData {
     const res: InitialData = {
         datasets: [],
         labels: ['count'],
@@ -14,6 +17,28 @@ export function initConverter(raw: typeof rawData): InitialData {
         res.times.push(Date.parse(it.timestamp))
     })
     res.datasets.push(dataset)
+
+    return res
+}
+
+type Labels = PropsOfType<typeof rawMultiData.rows[0], number>
+
+export function initConverterMultiLine(
+    raw: typeof rawMultiData, labels: Labels[]
+): InitialData {
+    const res: InitialData = {
+        datasets: [],
+        times: [],
+        labels,
+    }
+    labels.forEach(label => {
+        const dataset: number[] = [];
+        raw.rows.forEach(it => {
+            dataset.push(it[label])
+            res.times.push(Date.parse(it.timestamp))
+        })
+        res.datasets.push(dataset)
+    })
 
     return res
 }
