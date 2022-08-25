@@ -10,52 +10,46 @@ import {
   YAxis,
 } from "recharts";
 import CustomizedAxisTick from "./CustomAxisTick";
-import { getMaxdata, getMinData, getTicks, prepareData } from "./utils";
-import rawData from '../../data/severity_hour.json';
+import { getTicks } from "./utils";
+import { initConverter, prepareData } from "./converter";
+import rawData from '../../data/total_hour.json';
 
 interface LinearGraphProps {
   format?: (v: number) => string;
   step?: number;
   minorTicks?: number;
   labels?: string[];
-  start?: number | 'dataMin';
-  finish?: number | 'dataMax';
-  min?: number | 'dataMin';
-  max?: number | 'dataMax';
+  start?: number;
+  finish?: number;
+  min?: number | 'auto';
+  max?: number | 'auto';
   data?: Array<any>;
 }
 
-const LinearChart: FC<LinearGraphProps> = ({ format: tickFormat, start, finish, min, max, labels, data: dataProp, step, minorTicks }) => {
-  const [data, countLines] = prepareData(rawData)
-  min = typeof min !== 'number' ? getMinData(data) : min
-  max = typeof max !== 'number' ? getMaxdata(data) : max
-  tickFormat = (v: Date) => format(v, 'dd MMM yyyy')
+const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks }) => {
+  const data = initConverter(rawData);
+  const dataset = prepareData({ ...data })
+
+  min = typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
+  max = typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
+  start??= dataset[0]!.time
+  finish??= dataset.at(-1)!.time
+
+  console.log({start, finish});
+
 
   return (
-    <LineChart data={data} width={800} height={400}>
+    <LineChart data={dataset} width={800} height={400}>
       <CartesianGrid strokeDasharray="5 5" />
       <XAxis
-        dataKey="x"
+        dataKey="time"
         type="number"
-        domain={[start!, finish!]}
-        tickSize={0}
-        ticks={step && getTicks(minData, maxData, step, minorTicks)}
-        interval={0}
-        tickFormatter={tickFormat}
-        tick={<CustomizedAxisTick minorTicks={minorTicks} />}
+        domain={[start, finish]}
         allowDataOverflow
-        height={100}
       />
-      <YAxis domain={[min!, max!]} allowDataOverflow/>
+      <YAxis type='number' domain={[min, max]} allowDataOverflow />
 
-      <Tooltip
-        formatter={(v, _, p) => [v, JSON.stringify(p?.payload?.[p.dataKey.replace('y', 'label')])]}
-        labelFormatter={tickFormat}
-      />
-
-      {Array(countLines).fill(0).map((_, i) => (
-        <Line type="monotone" dataKey={`y_${i}`} stroke={randColor()} />
-      ))}
+      <Line type="monotone" dataKey={data.labels[0]} stroke={'#5D71F7'} />
     </LineChart>
   );
 };
@@ -63,8 +57,6 @@ const LinearChart: FC<LinearGraphProps> = ({ format: tickFormat, start, finish, 
 export default LinearChart;
 
 LinearChart.defaultProps = {
-  start: "dataMin",
-  finish: "dataMax",
   min: "auto",
   max: "auto",
   format: v => v.toString(),
