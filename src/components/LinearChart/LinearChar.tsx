@@ -1,21 +1,17 @@
-import { randColor } from "@ngneat/falso";
-import { format } from "date-fns";
+import { format as formatDate } from "date-fns";
 import { FC } from "react";
 import {
   CartesianGrid,
   Line,
   LineChart,
-  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import CustomizedAxisTick from "./CustomAxisTick";
-import { getTicks } from "./utils";
 import { initConverter, prepareData } from "./converter";
 import rawData from '../../data/total_hour.json';
 
 interface LinearGraphProps {
-  format?: (v: number) => string;
+  format?: string;
   step?: number;
   minorTicks?: number;
   labels?: string[];
@@ -26,7 +22,7 @@ interface LinearGraphProps {
   data?: Array<any>;
 }
 
-const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks }) => {
+const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format }) => {
   const data = initConverter(rawData);
   const dataset = prepareData({ ...data })
 
@@ -34,9 +30,7 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
   max = typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
   start??= dataset[0]!.time
   finish??= dataset.at(-1)!.time
-
-  console.log({start, finish});
-
+  format||= "dd MMM yyyy"
 
   return (
     <LineChart data={dataset} width={800} height={400}>
@@ -46,6 +40,7 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
         type="number"
         domain={[start, finish]}
         allowDataOverflow
+        tickFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}
       />
       <YAxis type='number' domain={[min, max]} allowDataOverflow />
 
@@ -59,7 +54,7 @@ export default LinearChart;
 LinearChart.defaultProps = {
   min: "auto",
   max: "auto",
-  format: v => v.toString(),
+  format: "dd MMM yyyy",
   minorTicks: 0,
   step: 0,
 };
