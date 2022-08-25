@@ -1,8 +1,8 @@
-import { ChartDataItem } from "../../types/ChartData";
-import rawSingleData from '../../data/total_hour.json';
-import rawMultiData from '../../data/severity_hour.json';
-import { InitialData } from "../../types/RawData";
-import { PropsOfType } from "../../types/PropsOfType";
+import { ChartDataItem } from "../types/ChartData";
+import rawSingleData from '../data/total_hour.json';
+import rawMultiData from '../data/severity_hour.json';
+import { InitialData } from "../types/RawData";
+import { PropsOfType } from "../types/PropsOfType";
 
 
 export function initConverterOneLine(raw: typeof rawSingleData): InitialData {

@@ -2,19 +2,20 @@ import { format as formatDate } from "date-fns";
 import { FC } from "react";
 import {
   CartesianGrid,
-  Line,
-  LineChart,
+  BarChart as RechartsBarChart,
   Tooltip,
   XAxis,
   YAxis,
+  Bar,
 } from "recharts";
 import { prepareData, initConverterMultiLine } from '../../utils/converter';
 import rawData from '../../data/severity_hour.json';
 import { getTicks } from "./utils";
 import CustomAxisTick from './CustomAxisTick';
 import { PropsOfType } from '../../types/PropsOfType';
+import { trimData } from "../LinearChart/utils";
 
-type Keys =  PropsOfType<typeof rawData.rows[0], number>
+type Keys = PropsOfType<typeof rawData.rows[0], number>
 interface LinearGraphProps {
   format?: string;
   step?: number;
@@ -29,46 +30,56 @@ interface LinearGraphProps {
   colors?: string[]
 }
 
-const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors }) => {
-  const data = initConverterMultiLine(rawData, keys);
-  if(labels) data.labels = labels
+const BarChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors }) => {
+  let data = initConverterMultiLine(rawData, keys);
+
+  if (labels) data.labels = labels
+
+  start ??= data.times[0]
+  finish ??= data.times.at(-1)!
+
+  if ((start && typeof start === 'number')
+    || (finish && typeof finish === 'number')) {
+      data = trimData(data, start ?? data.times[0], finish ?? data.times.at(-1)!)
+  }
+
   const dataset = prepareData({ ...data })
+  min ||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
+  max ||= typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
 
-  min||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
-  max||= typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
 
-  start??= dataset[0]!.time
-  finish??= dataset.at(-1)!.time
 
-  format||= "dd MMM yyyy"
+  format ||= "dd MM yyyy"
   colors = colors || ['blue']
+
+
   return (
-    <LineChart data={dataset} width={800} height={400}>
+    <RechartsBarChart data={dataset} width={800} height={400} margin={{right: 50}}>
       <CartesianGrid strokeDasharray="5 5" />
       <XAxis
         dataKey="time"
-        type="number"
         domain={[start, finish]}
         allowDataOverflow
         tickSize={0}
         interval={0}
         ticks={getTicks(data.times, minorTicks || step || 1)}
-        tick={<CustomAxisTick step={step || 1}/>}
-        tickFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}
+        tick={<CustomAxisTick step={step || 1} />}
+        height={35}
+        tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
       />
       <YAxis type='number' domain={[min, max]} allowDataOverflow />
-      <Tooltip labelFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}/>
+      <Tooltip labelFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)} />
       {keys.map((key, idx) => (
-        <Line type="monotone" dataKey={key} stroke={colors![idx % colors!.length]} key={key}/>
-        )
+        <Bar type="monotone" dataKey={key} stackId={0} fill={colors![idx % colors!.length]} key={key} />
+      )
       )}
-    </LineChart>
+    </RechartsBarChart>
   );
 };
 
-export default LinearChart;
+export default BarChart;
 
-LinearChart.defaultProps = {
+BarChart.defaultProps = {
   min: "auto",
   max: "auto",
   format: "dd MMM yyyy",
