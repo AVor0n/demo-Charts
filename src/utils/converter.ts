@@ -1,4 +1,4 @@
-import { ChartDataItem } from "../types/ChartData";
+import { ChartDataItem, PieChartItem } from "../types/ChartData";
 import rawSingleData from '../data/total_hour.json';
 import rawMultiData from '../data/severity_hour.json';
 import { InitialData } from "../types/RawData";
@@ -53,5 +53,12 @@ export function prepareData(d: InitialData): ChartDataItem[] {
         })
 
         return item
+    }))
+}
+
+export function preparePieData(d: [string, number][]): PieChartItem[]{
+    return d.map(it => ({
+        name: it[0],
+        value: it[1],
     }))
 }
