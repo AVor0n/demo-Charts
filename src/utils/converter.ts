@@ -56,7 +56,7 @@ export function prepareData(d: InitialData): ChartDataItem[] {
     }))
 }
 
-export function preparePieData(d: [string, number][]): PieChartItem[]{
+export function preparePieData(d: [string, number][]): PieChartItem[] {
     return d.map(it => ({
         name: it[0],
         value: it[1],
