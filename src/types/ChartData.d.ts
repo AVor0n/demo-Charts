@@ -4,5 +4,3 @@ export type ChartDataItem = {
     time: number,
     [key: string]: number
 }
-
-export type ChartData = ChartDataItem[];
