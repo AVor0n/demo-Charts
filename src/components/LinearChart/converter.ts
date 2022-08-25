@@ -28,16 +28,13 @@ export function initConverterMultiLine(
 ): InitialData {
     const res: InitialData = {
         datasets: [],
-        times: [],
+        times: raw.rows.map(it => Date.parse(it.timestamp)),
         labels,
     }
     labels.forEach(label => {
-        const dataset: number[] = [];
-        raw.rows.forEach(it => {
-            dataset.push(it[label])
-            res.times.push(Date.parse(it.timestamp))
-        })
-        res.datasets.push(dataset)
+        res.datasets.push(
+            raw.rows.map(row => row[label])
+        )
     })
 
     return res

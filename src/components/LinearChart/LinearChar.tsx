@@ -8,25 +8,29 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { prepareData, initConverterOneLine } from './converter';
-import rawData from '../../data/total_hour.json';
+import { prepareData, initConverterMultiLine } from './converter';
+import rawData from '../../data/severity_hour.json';
 import { getTicks } from "./utils";
 import CustomAxisTick from './CustomAxisTick';
+import { PropsOfType } from '../../types/PropsOfType';
 
+type Keys =  PropsOfType<typeof rawData.rows[0], number>
 interface LinearGraphProps {
   format?: string;
   step?: number;
   minorTicks?: number;
   labels?: string[];
+  keys: Keys[];
   start?: number;
   finish?: number;
   min?: number | 'auto' | 'dataMin';
   max?: number | 'auto' | 'dataMax';
   data?: Array<any>;
+  colors?: string[]
 }
 
-const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels }) => {
-  const data = initConverterOneLine(rawData);
+const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors }) => {
+  const data = initConverterMultiLine(rawData, keys);
   if(labels) data.labels = labels
   const dataset = prepareData({ ...data })
 
@@ -37,7 +41,7 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
   finish??= dataset.at(-1)!.time
 
   format||= "dd MMM yyyy"
-
+  colors = colors || ['blue']
   return (
     <LineChart data={dataset} width={800} height={400}>
       <CartesianGrid strokeDasharray="5 5" />
@@ -54,7 +58,10 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
       />
       <YAxis type='number' domain={[min, max]} allowDataOverflow />
       <Tooltip labelFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}/>
-      <Line type="monotone" dataKey={data.labels[0]} stroke={'#5D71F7'} />
+      {keys.map((key, idx) => (
+        <Line type="monotone" dataKey={key} stroke={colors![idx % colors!.length]} key={key}/>
+        )
+      )}
     </LineChart>
   );
 };
@@ -67,4 +74,6 @@ LinearChart.defaultProps = {
   format: "dd MMM yyyy",
   minorTicks: 1,
   step: 1,
+  keys: [],
+  colors: ['blue', 'red', 'green', 'orange']
 };
