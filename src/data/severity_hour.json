@@ -1,0 +1,206 @@
+{
+    "success": true,
+    "timeSlice": "hour",
+    "rows": [
+        {
+            "valid": true,
+            "high": 2178,
+            "other": 61,
+            "low": 764,
+            "mid": 1103,
+            "timestamp": "2022-08-23T15:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6425,
+            "other": 180,
+            "low": 2245,
+            "mid": 3261,
+            "timestamp": "2022-08-23T16:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6480,
+            "other": 180,
+            "low": 2265,
+            "mid": 3267,
+            "timestamp": "2022-08-23T17:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6486,
+            "other": 180,
+            "low": 2262,
+            "mid": 3267,
+            "timestamp": "2022-08-23T18:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6489,
+            "other": 180,
+            "low": 2261,
+            "mid": 3282,
+            "timestamp": "2022-08-23T19:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6501,
+            "other": 180,
+            "low": 2266,
+            "mid": 3282,
+            "timestamp": "2022-08-23T20:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6302,
+            "other": 180,
+            "low": 2216,
+            "mid": 3214,
+            "timestamp": "2022-08-23T21:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6546,
+            "other": 180,
+            "low": 2279,
+            "mid": 3309,
+            "timestamp": "2022-08-23T22:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6575,
+            "other": 180,
+            "low": 2293,
+            "mid": 3323,
+            "timestamp": "2022-08-23T23:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6500,
+            "other": 180,
+            "low": 2264,
+            "mid": 3276,
+            "timestamp": "2022-08-24T00:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6486,
+            "other": 180,
+            "low": 2263,
+            "mid": 3291,
+            "timestamp": "2022-08-24T01:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6465,
+            "other": 180,
+            "low": 2260,
+            "mid": 3259,
+            "timestamp": "2022-08-24T02:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6469,
+            "other": 180,
+            "low": 2266,
+            "mid": 3268,
+            "timestamp": "2022-08-24T03:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6487,
+            "other": 180,
+            "low": 2265,
+            "mid": 3310,
+            "timestamp": "2022-08-24T04:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6754,
+            "other": 179,
+            "low": 2335,
+            "mid": 3408,
+            "timestamp": "2022-08-24T05:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6733,
+            "other": 180,
+            "low": 2341,
+            "mid": 3395,
+            "timestamp": "2022-08-24T06:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6743,
+            "other": 180,
+            "low": 2337,
+            "mid": 3384,
+            "timestamp": "2022-08-24T07:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6559,
+            "other": 180,
+            "low": 2292,
+            "mid": 3342,
+            "timestamp": "2022-08-24T08:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6644,
+            "other": 180,
+            "low": 2311,
+            "mid": 3370,
+            "timestamp": "2022-08-24T09:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6724,
+            "other": 180,
+            "low": 2335,
+            "mid": 3378,
+            "timestamp": "2022-08-24T10:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6510,
+            "other": 180,
+            "low": 2275,
+            "mid": 3320,
+            "timestamp": "2022-08-24T11:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6703,
+            "other": 180,
+            "low": 2329,
+            "mid": 3379,
+            "timestamp": "2022-08-24T12:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6741,
+            "other": 180,
+            "low": 2337,
+            "mid": 3396,
+            "timestamp": "2022-08-24T13:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 6488,
+            "other": 180,
+            "low": 2263,
+            "mid": 3305,
+            "timestamp": "2022-08-24T14:00:00Z"
+        },
+        {
+            "valid": true,
+            "high": 4407,
+            "other": 117,
+            "low": 1521,
+            "mid": 2199,
+            "timestamp": "2022-08-24T15:00:00Z"
+        }
+    ]
+}
