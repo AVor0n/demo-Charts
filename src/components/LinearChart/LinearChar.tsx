@@ -4,11 +4,13 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import { initConverter, prepareData } from "./converter";
 import rawData from '../../data/total_hour.json';
+import { getTicks } from "./utils";
 
 interface LinearGraphProps {
   format?: string;
@@ -40,10 +42,12 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
         type="number"
         domain={[start, finish]}
         allowDataOverflow
+        interval={0}
+        ticks={getTicks(data.times, minorTicks || step || 1)}
         tickFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}
       />
       <YAxis type='number' domain={[min, max]} allowDataOverflow />
-
+      <Tooltip labelFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}/>
       <Line type="monotone" dataKey={data.labels[0]} stroke={'#5D71F7'} />
     </LineChart>
   );
@@ -55,6 +59,6 @@ LinearChart.defaultProps = {
   min: "auto",
   max: "auto",
   format: "dd MMM yyyy",
-  minorTicks: 0,
-  step: 0,
+  minorTicks: 1,
+  step: 1,
 };

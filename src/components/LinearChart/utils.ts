@@ -1,10 +1,9 @@
-export function getTicks(
-    min: number,
-    max: number,
-    step: number,
-    minorTicks = 0,
-) {
-    const minStep = step / (minorTicks + 1);
-    const countTicks = Math.floor((max - min) / minStep) + 1;
-    return Array.from(Array(countTicks), (_it, i) => min + minStep * i);
+export function getTicks(times: number[], gridStepX: number) {
+  if (gridStepX === 1) return times;
+  const ticks: number[] = [];
+  times.forEach((it, idx) => {
+    !(idx % gridStepX) //=
+    if (!(idx % gridStepX)) ticks.push(it)
+  })
+  return ticks
 }
