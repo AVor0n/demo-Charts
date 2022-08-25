@@ -11,6 +11,7 @@ import {
 import { initConverter, prepareData } from "./converter";
 import rawData from '../../data/total_hour.json';
 import { getTicks } from "./utils";
+import CustomAxisTick from './CustomAxisTick';
 
 interface LinearGraphProps {
   format?: string;
@@ -30,8 +31,10 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
 
   min = typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
   max = typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
+
   start??= dataset[0]!.time
   finish??= dataset.at(-1)!.time
+
   format||= "dd MMM yyyy"
 
   return (
@@ -42,8 +45,10 @@ const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, mino
         type="number"
         domain={[start, finish]}
         allowDataOverflow
+        tickSize={0}
         interval={0}
         ticks={getTicks(data.times, minorTicks || step || 1)}
+        tick={<CustomAxisTick step={step || 1}/>}
         tickFormatter={(timestamp:number) => formatDate(new Date(timestamp), format!)}
       />
       <YAxis type='number' domain={[min, max]} allowDataOverflow />

@@ -2,23 +2,23 @@ import { FC } from "react";
 
 const CustomAxisTick: FC<any> = (props: any) => {
     const { x, y, payload, index, step, tickFormatter, visibleTicksCount } = props;
-    const isMinorTick = !!(index % (step));
 
-    // const align = index === 0? 'start': index === visibleTicksCount - 1 ? 'end': 'middle'
+    // const isFirstTick = index === 0;
+    // const isLastTick = index === visibleTicksCount - 1;
+    const isMainTick = !(index % (step));
+
+    // const align = isFirstTick ? 'start' : isLastTick ? 'end' : 'middle'
     return (
-        <g transform={`translate(${x},${y-2})`}>
+        <g transform={`translate(${x},${y - 2})`}>
             <line
-                y2={isMinorTick ? 4 : 12}
+                y2={isMainTick ? 12 : 4}
                 stroke='black'
             />
-            {!isMinorTick && <text
-                dx={-20}
-                dy={15}
-                text-anchor={'end'}
-                transform={'rotate(-60)'}
-            >
-                {tickFormatter([payload.value])}
-            </text>}
+            {isMainTick && (
+                <text dy={30} text-anchor={'middle'}>
+                    {tickFormatter(payload.value)}
+                </text>
+            )}
         </g>
     );
 };
