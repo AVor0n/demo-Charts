@@ -25,9 +25,11 @@ interface LinearGraphProps {
   data?: Array<any>;
 }
 
-const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format }) => {
+const LinearChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels }) => {
   const data = initConverter(rawData);
+  if(labels) data.labels = labels
   const dataset = prepareData({ ...data })
+
   min||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
   max||= typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
 
