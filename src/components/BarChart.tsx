@@ -7,12 +7,14 @@ import {
     XAxis,
     YAxis,
     Bar,
+    ResponsiveContainer,
 } from "recharts";
 import { prepareData, initConverterMultiLine } from '../utils/converter';
 import rawData from '../data/severity_hour.json';
 import CustomAxisTick from './CustomAxisTick';
 import { PropsOfType } from '../types/PropsOfType';
 import { getTicks, trimData } from "../utils/charUtils";
+import { InitialData } from "../types/RawData";
 
 type Keys = PropsOfType<typeof rawData.rows[0], number>
 interface LinearGraphProps {
@@ -25,22 +27,19 @@ interface LinearGraphProps {
     finish?: number;
     min?: number | 'auto' | 'dataMin';
     max?: number | 'auto' | 'dataMax';
-    data?: Array<any>;
+    data: InitialData;
     colors?: string[]
 }
 
-const BarChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors }) => {
-    let data = initConverterMultiLine(rawData, keys);
-
+const BarChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors, data }) => {
     if (labels) data.labels = labels
 
-    start ??= data.times[0]
-    finish ??= data.times.at(-1)!
 
-    if ((start && typeof start === 'number')
-        || (finish && typeof finish === 'number')) {
+    if (start || finish) {
         data = trimData(data, start ?? data.times[0], finish ?? data.times.at(-1)!)
     }
+    start ??= data.times[0]
+    finish ??= data.times.at(-1)!
 
     const dataset = prepareData({ ...data })
     min ||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
@@ -50,26 +49,28 @@ const BarChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTi
     colors = colors || ['blue']
 
     return (
-        <RechartsBarChart data={dataset} width={800} height={400} margin={{ right: 50 }}>
-            <CartesianGrid strokeDasharray="5 5" />
-            <XAxis
-                dataKey="time"
-                domain={[start, finish]}
-                allowDataOverflow
-                tickSize={0}
-                interval={0}
-                ticks={getTicks(data.times, minorTicks || step || 1)}
-                tick={<CustomAxisTick step={step || 1} />}
-                height={35}
-                tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
-            />
-            <YAxis type='number' domain={[min, max]} allowDataOverflow />
-            <Tooltip labelFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)} />
-            {keys.map((key, idx) => (
-                <Bar type="monotone" dataKey={key} stackId={0} fill={colors![idx % colors!.length]} key={key} />
-            )
-            )}
-        </RechartsBarChart>
+        <ResponsiveContainer width={'100%'} height={400} >
+            <RechartsBarChart data={dataset} margin={{ right: 50 }}>
+                <CartesianGrid strokeDasharray="5 5" />
+                <XAxis
+                    dataKey="time"
+                    domain={[start, finish]}
+                    allowDataOverflow
+                    tickSize={0}
+                    interval={0}
+                    ticks={getTicks(data.times, minorTicks || step || 1)}
+                    tick={<CustomAxisTick step={step || 1} />}
+                    height={35}
+                    tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
+                />
+                <YAxis type='number' domain={[min, max]} allowDataOverflow />
+                <Tooltip labelFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)} />
+                {keys.map((key, idx) => (
+                    <Bar type="monotone" dataKey={key} stackId={0} fill={colors![idx % colors!.length]} key={key} />
+                )
+                )}
+            </RechartsBarChart>
+        </ResponsiveContainer>
     );
 };
 
