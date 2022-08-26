@@ -4,6 +4,7 @@ import {
     CartesianGrid,
     Line,
     LineChart as RechartsLineChart,
+    ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis,
@@ -13,6 +14,7 @@ import rawData from '../data/severity_hour.json';
 import CustomAxisTick from './CustomAxisTick';
 import { PropsOfType } from '../types/PropsOfType';
 import { getTicks } from "../utils/charUtils";
+import { InitialData } from "../types/RawData";
 
 type Keys = PropsOfType<typeof rawData.rows[0], number>
 interface LinearGraphProps {
@@ -21,49 +23,46 @@ interface LinearGraphProps {
     minorTicks?: number;
     labels?: string[];
     keys: Keys[];
-    start?: number;
-    finish?: number;
+    start?: number | 'auto' | 'dataMin';
+    finish?: number | 'auto' | 'dataMax';
     min?: number | 'auto' | 'dataMin';
     max?: number | 'auto' | 'dataMax';
-    data?: Array<any>;
+    data: InitialData;
     colors?: string[]
 }
 
-const LineChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors }) => {
-    const data = initConverterMultiLine(rawData, keys);
+const LineChart: FC<LinearGraphProps> = ({ start, finish, min, max, step, minorTicks, format, labels, keys, colors, data }) => {
     if (labels) data.labels = labels
     const dataset = prepareData({ ...data })
 
-    min ||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min
-    max ||= typeof max !== 'number' ? Math.max(...data.datasets[0]) : max
+    min = min === 'dataMin' ? Math.min(...data.datasets[0]) : (min ?? 'auto')
+    max = max === 'dataMax' ? Math.max(...data.datasets[0]) : (max ?? 'auto')
 
     start ??= dataset[0]!.time
     finish ??= dataset.at(-1)!.time
 
-    format ||= "dd MMM yyyy"
-    colors = colors || ['blue']
-
     return (
-        <RechartsLineChart data={dataset} width={800} height={400}>
-            <CartesianGrid strokeDasharray="5 5" />
-            <XAxis
-                dataKey="time"
-                type="number"
-                domain={[start, finish]}
-                allowDataOverflow
-                tickSize={0}
-                interval={0}
-                ticks={getTicks(data.times, minorTicks || step || 1)}
-                tick={<CustomAxisTick step={step || 1} />}
-                tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
-            />
-            <YAxis type='number' domain={[min, max]} allowDataOverflow />
-            <Tooltip labelFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)} />
-            {keys.map((key, idx) => (
-                <Line type="monotone" dataKey={key} stroke={colors![idx % colors!.length]} key={key} />
-            )
-            )}
-        </RechartsLineChart>
+        <ResponsiveContainer width={'100%'} height={400}>
+            <RechartsLineChart data={dataset}>
+                <CartesianGrid strokeDasharray="5 5" />
+                <XAxis
+                    dataKey="time"
+                    type="number"
+                    domain={[start, finish]}
+                    allowDataOverflow
+                    tickSize={0}
+                    interval={0}
+                    ticks={getTicks(data.times, minorTicks || step || 1)}
+                    tick={<CustomAxisTick step={step || 1} />}
+                    tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
+                />
+                <YAxis type='number' domain={[min, max]} allowDataOverflow />
+                <Tooltip labelFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)} />
+                {keys.map((key, idx) => (
+                    <Line type="monotone" dataKey={key} stroke={colors![idx % colors!.length]} key={key} />
+                ))}
+            </RechartsLineChart>
+        </ResponsiveContainer>
     );
 };
 
@@ -76,5 +75,7 @@ LineChart.defaultProps = {
     minorTicks: 1,
     step: 1,
     keys: [],
+    start: 'dataMin',
+    finish: 'dataMax',
     colors: ['blue', 'red', 'green', 'orange']
 };
