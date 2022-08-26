@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import rawData from '../data/severity_hour.json'
 import LineChart from '../components/LineChart';
-import { initConverterMultiLine } from '../utils/converter';
+import { initConverter } from '../utils/converter';
 
 export default {
     title: 'Charts/LineChart',
@@ -22,7 +22,7 @@ const Template: ComponentStory<typeof LineChart> = args => <LineChart {...args} 
 export const Base = Template.bind({});
 Base.args = {
     colors: ['red', 'orange', 'yellow', 'blue'],
-    data: initConverterMultiLine(rawData, ['high', 'mid', 'low', 'other']),
+    data: initConverter(rawData, ['high', 'mid', 'low', 'other']),
     format: 'dd.MM HH:mm',
     step: 5,
     minorTicks: 1,

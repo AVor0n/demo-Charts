@@ -12,10 +12,9 @@ import { preparePieData } from "../utils/converter";
 interface PieChartProps {
     data?: Array<any>;
     colors?: string[];
-    size?: number;
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors, size }) => {
+export const PieChart: FC<PieChartProps> = ({ colors}) => {
     const data = preparePieData(rawData as [string, number][])
     colors ??= data.map(() => randColor())
 

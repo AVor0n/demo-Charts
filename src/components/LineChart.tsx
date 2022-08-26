@@ -9,7 +9,7 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { prepareData, initConverterMultiLine } from '../utils/converter';
+import { prepareData, initConverter } from '../utils/converter';
 import rawData from '../data/severity_hour.json';
 import CustomAxisTick from './CustomAxisTick';
 import { PropsOfType } from '../types/PropsOfType';

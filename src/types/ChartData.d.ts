@@ -1,5 +1,4 @@
 import PieChart from '../components/PieChart/PieChar';
-type prefixField<prefix extends string> = `${prefix}_${number}`
 
 export type ChartDataItem = {
     time: number,
