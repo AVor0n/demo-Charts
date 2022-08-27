@@ -7,7 +7,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -o docs-build"
   },
   "dependencies": {
     "@ngneat/falso": "^6.1.0",

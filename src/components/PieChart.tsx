@@ -14,7 +14,7 @@ interface PieChartProps {
     colors?: string[];
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors}) => {
+export const PieChart: FC<PieChartProps> = ({ colors }) => {
     const data = preparePieData(rawData as [string, number][])
     colors ??= data.map(() => randColor())
 
