@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof BarChart> = args => <BarChart {...args} />
 export const Base = Template.bind({});
 Base.args = {
     data: initConverter(rawData, ['high', 'mid', 'low', 'other']),
-    colors: ['#BD60F0', '#79D55E', '#AB304E', '#E04375'],
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
     labels: ['high', 'mid', 'low', 'other'],
     keys: ['high', 'mid', 'low', 'other'],
     format: 'dd.MM HH:mm',

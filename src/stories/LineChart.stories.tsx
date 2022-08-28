@@ -22,7 +22,7 @@ const Template: ComponentStory<typeof LineChart> = args => <LineChart {...args} 
 export const Base = Template.bind({});
 Base.args = {
     data: initConverter(rawData, ['high', 'mid', 'low', 'other']),
-    colors: ['red', 'orange', 'yellow', 'blue'],
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
     labels: ['high', 'mid', 'low', 'other'],
     keys: ['high', 'mid', 'low', 'other'],
     format: 'dd.MM HH:mm',

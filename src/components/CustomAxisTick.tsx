@@ -6,10 +6,10 @@ const CustomAxisTick: FC<any> = (props: any) => {
 
     return (
         <g transform={`translate(${x},${y - 2})`}>
-            <line y2={isMainTick ? 12 : 4} stroke='black'/>
+            <line y2={isMainTick ? 12 : 4} stroke='#666666'/>
 
             {isMainTick && (
-                <text dy={30} textAnchor={'middle'}>
+                <text dy={30} textAnchor={'middle'} fill='#666666'>
                     {tickFormatter(payload.value)}
                 </text>
             )}

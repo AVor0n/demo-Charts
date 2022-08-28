@@ -96,5 +96,5 @@ LineChart.defaultProps = {
     keys: [],
     start: 'dataMin',
     finish: 'dataMax',
-    colors: ['blue', 'red', 'green', 'orange'],
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
 };

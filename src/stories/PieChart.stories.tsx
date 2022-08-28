@@ -18,6 +18,6 @@ const Template: ComponentStory<typeof PieChart> = args => (
 
 export const Base = Template.bind({});
 Base.args = {
-    colors: ['red', 'orange', 'yellow', 'blue'],
     data: pieData,
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
 };

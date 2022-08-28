@@ -29,6 +29,7 @@ interface LinearGraphProps {
     max?: number | 'auto' | 'dataMax';
     data: InitialData;
     colors?: string[];
+    layout: 'vertical' | 'horizontal'
 }
 
 const BarChart: FC<LinearGraphProps> = ({
@@ -98,5 +99,6 @@ BarChart.defaultProps = {
     minorTicks: 1,
     step: 1,
     keys: [],
-    colors: ['blue', 'red', 'green', 'orange'],
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
+    layout: 'horizontal'
 };

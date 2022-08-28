@@ -25,7 +25,6 @@ export const PieChart: FC<PieChartProps> = ({ colors }) => {
                     cy="50%"
                     label
                     outerRadius={'70%'}
-                    fill="#8884d8"
                     dataKey="value"
                 >
                     {data.map((_entry, index) => (
@@ -40,5 +39,5 @@ export const PieChart: FC<PieChartProps> = ({ colors }) => {
 export default PieChart;
 
 PieChart.defaultProps = {
-    colors: ['blue', 'red', 'green', 'orange']
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
 };
