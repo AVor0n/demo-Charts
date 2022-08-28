@@ -20,13 +20,30 @@ export default {
 
 const Template: ComponentStory<typeof BarChart> = args => <BarChart {...args} />;
 
-export const Base = Template.bind({});
-Base.args = {
+export const Horizontal = Template.bind({});
+Horizontal.args = {
     data: initConverter(rawData, ['high', 'mid', 'low', 'other']),
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
     labels: ['high', 'mid', 'low', 'other'],
     keys: ['high', 'mid', 'low', 'other'],
     format: 'dd.MM HH:mm',
+    layout: 'horizontal',
+    tooltip: true,
+    legend: false,
+    minorTicks: 1,
+    step: 5,
+};
+
+export const Vertical = Template.bind({});
+Vertical.args = {
+    data: initConverter(rawData, ['high', 'mid', 'low', 'other']),
+    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
+    labels: ['high', 'mid', 'low', 'other'],
+    keys: ['high', 'mid', 'low', 'other'],
+    format: 'dd.MM HH:mm',
+    layout: 'vertical',
+    tooltip: true,
+    legend: false,
     minorTicks: 1,
     step: 5,
 };

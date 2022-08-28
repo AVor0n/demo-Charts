@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { prepareData, initConverter } from '../utils/converter';
 import rawData from '../data/severity_hour.json';
-import CustomAxisTick from './CustomAxisTick';
+import CustomAxisTick from './CustomXAxisTick';
 import { PropsOfType } from '../types/PropsOfType';
 import { getTicks } from '../utils/charUtils';
 import { InitialData } from '../types/RawData';

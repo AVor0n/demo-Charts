@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-const CustomAxisTick: FC<any> = (props: any) => {
+const CustomXAxisTick: FC<any> = (props: any) => {
     const { x, y, payload, index, step, tickFormatter } = props;
     const isMainTick = !(index % (step));
 
@@ -17,4 +17,4 @@ const CustomAxisTick: FC<any> = (props: any) => {
     );
 };
 
-export default CustomAxisTick
+export default CustomXAxisTick;

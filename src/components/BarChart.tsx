@@ -8,16 +8,18 @@ import {
     YAxis,
     Bar,
     ResponsiveContainer,
+    Legend,
 } from 'recharts';
-import { prepareData, initConverter } from '../utils/converter';
+import { prepareData } from '../utils/converter';
 import rawData from '../data/severity_hour.json';
-import CustomAxisTick from './CustomAxisTick';
 import { PropsOfType } from '../types/PropsOfType';
 import { getTicks, trimData } from '../utils/charUtils';
 import { InitialData } from '../types/RawData';
+import CustomXAxisTick from './CustomXAxisTick';
+import CustomYAxisTick from './CustomYAxisTick';
 
 type Keys = PropsOfType<typeof rawData.rows[0], number>;
-interface LinearGraphProps {
+interface BarChartProps {
     format?: string;
     step?: number;
     minorTicks?: number;
@@ -29,10 +31,12 @@ interface LinearGraphProps {
     max?: number | 'auto' | 'dataMax';
     data: InitialData;
     colors?: string[];
-    layout: 'vertical' | 'horizontal'
+    layout: 'vertical' | 'horizontal';
+    tooltip?: boolean;
+    legend?: boolean;
 }
 
-const BarChart: FC<LinearGraphProps> = ({
+const BarChart: FC<BarChartProps> = ({
     start,
     finish,
     min,
@@ -43,7 +47,10 @@ const BarChart: FC<LinearGraphProps> = ({
     labels,
     keys,
     colors,
+    layout,
     data,
+    legend,
+    tooltip,
 }) => {
     if (start || finish) {
         data = trimData(data, start ?? data.times[0], finish ?? data.times.at(-1)!);
@@ -52,31 +59,41 @@ const BarChart: FC<LinearGraphProps> = ({
 
     start ??= data.times[0];
     finish ??= data.times.at(-1)!;
+    const offset = (data.times[1] - data.times[0]) / 2;
 
     min ||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min;
     max ||= typeof max !== 'number' ? Math.max(...data.datasets[0]) : max;
 
+    const [TimeAxis, DataAxis] = layout === 'horizontal' ? [XAxis, YAxis] : [YAxis, XAxis];
+    const CustomAxisTick = layout === 'horizontal' ? CustomXAxisTick : CustomYAxisTick;
+
     return (
         <ResponsiveContainer width={'100%'} height={400}>
-            <RechartsBarChart data={dataset} margin={{ right: 50 }}>
+            <RechartsBarChart data={dataset} layout={layout}>
                 <CartesianGrid strokeDasharray="5 5" />
-                <XAxis
+                <TimeAxis
                     dataKey="time"
-                    domain={[start, finish]}
+                    domain={[start - offset, finish + offset]}
                     allowDataOverflow
-                    height={35}
                     interval={0}
                     tickSize={0}
-                    tick={<CustomAxisTick step={step || 1} />}
+                    tick={<CustomAxisTick step={step || 1} layout={layout} />}
                     ticks={getTicks(data.times, minorTicks || step || 1)}
                     tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
+                    {...(layout === 'vertical' ? { width: 130 } : {})}
                 />
-                <YAxis type="number" domain={[min, max]} allowDataOverflow />
-                <Tooltip
-                    labelFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
-                />
+                <DataAxis type="number" domain={[min, max]} allowDataOverflow />
+                {tooltip && (
+                    <Tooltip
+                        labelFormatter={(timestamp: number) =>
+                            formatDate(new Date(timestamp), format!)
+                        }
+                    />
+                )}
+                {legend && <Legend />}
                 {keys.map((key, idx) => (
                     <Bar
+                        layout="vertical"
                         type="monotone"
                         dataKey={key}
                         stackId={0}
@@ -100,5 +117,7 @@ BarChart.defaultProps = {
     step: 1,
     keys: [],
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
-    layout: 'horizontal'
+    layout: 'horizontal',
+    tooltip: true,
+    legend: false,
 };
