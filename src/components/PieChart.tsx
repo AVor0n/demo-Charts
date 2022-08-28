@@ -6,7 +6,6 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import rawData from '../data/pieData.json';
-import { randColor } from '@ngneat/falso';
 import { preparePieData } from "../utils/converter";
 
 interface PieChartProps {
@@ -16,7 +15,6 @@ interface PieChartProps {
 
 export const PieChart: FC<PieChartProps> = ({ colors }) => {
     const data = preparePieData(rawData as [string, number][])
-    colors ??= data.map(() => randColor())
 
     return (
         <ResponsiveContainer height={'100%'} width={'100%'}>

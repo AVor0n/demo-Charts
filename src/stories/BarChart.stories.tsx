@@ -22,10 +22,11 @@ const Template: ComponentStory<typeof BarChart> = args => <BarChart {...args} />
 
 export const Base = Template.bind({});
 Base.args = {
-    colors: ['#BD60F0', '#79D55E', '#AB304E', '#E04375'],
     data: initConverter(rawData, ['high', 'mid', 'low', 'other']),
-    format: 'dd.MM HH:mm',
-    step: 5,
-    minorTicks: 1,
+    colors: ['#BD60F0', '#79D55E', '#AB304E', '#E04375'],
+    labels: ['high', 'mid', 'low', 'other'],
     keys: ['high', 'mid', 'low', 'other'],
+    format: 'dd.MM HH:mm',
+    minorTicks: 1,
+    step: 5,
 };

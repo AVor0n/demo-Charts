@@ -1,5 +1,5 @@
 export type InitialData = {
     datasets: number[][],
-    labels: string[],
+    keys: string[],
     times: number[]
 }

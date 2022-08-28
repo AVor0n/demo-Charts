@@ -15,8 +15,8 @@ export function trimData(data: InitialData, start: number, finish: number): Init
     const endIdx = data.times.findIndex(time => time >= finish)
     if (startIdx === -1 || endIdx === -1) {
         return {
-            datasets: data.labels.map(() => []),
-            labels: data.labels,
+            datasets: data.keys.map(() => []),
+            keys: data.keys,
             times: []
         }
     }

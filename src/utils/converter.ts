@@ -3,19 +3,19 @@ import rawMultiData from '../data/severity_hour.json';
 import { InitialData } from "../types/RawData";
 import { PropsOfType } from "../types/PropsOfType";
 
-type Labels = PropsOfType<typeof rawMultiData.rows[0], number>
+type Keys = PropsOfType<typeof rawMultiData.rows[0], number>
 
 export function initConverter(
-    raw: typeof rawMultiData, labels: Labels[]
+    raw: typeof rawMultiData, keys: Keys[]
 ): InitialData {
     const res: InitialData = {
         datasets: [],
         times: raw.rows.map(it => Date.parse(it.timestamp)),
-        labels,
+        keys,
     }
-    labels.forEach(label => {
+    keys.forEach(key => {
         res.datasets.push(
-            raw.rows.map(row => row[label])
+            raw.rows.map(row => row[key])
         )
     })
 
@@ -31,7 +31,7 @@ export function prepareData(d: InitialData): ChartDataItem[] {
         };
 
         d.datasets.forEach((dataset, datasetIdx) => {
-            item[d.labels[datasetIdx]] = dataset[itemIdx];
+            item[d.keys[datasetIdx]] = dataset[itemIdx];
         })
 
         return item
