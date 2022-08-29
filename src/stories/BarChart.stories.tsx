@@ -15,6 +15,12 @@ export default {
         labels: { description: 'Названия линий, показываются во всплывающей подсказке' },
         start: { control: 'date', description: 'Ось X, начальная дата' },
         finish: { control: 'date', description: 'Ось X, конечная дата' },
+        legend: { description: 'Показывать всплывающую подсказку' },
+        tooltip: { description: 'Показывать легенду' },
+        layout: {description: 'Направление отображения графика'},
+        min: {description: 'Ось Y, минимальное значение'},
+        max: {description: 'Ось Y, максимальное значение'},
+        colors: {description: 'Цвета графиков'}
     },
 } as ComponentMeta<typeof BarChart>;
 

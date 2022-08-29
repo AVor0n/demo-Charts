@@ -11,6 +11,7 @@ export default {
     component: PieChart,
     argTypes: {
         data: { table: { disable: true } },
+        colors: {description: 'Цвета графиков'},
     },
 } as ComponentMeta<typeof PieChart>;
 

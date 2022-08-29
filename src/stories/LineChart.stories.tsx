@@ -12,8 +12,14 @@ export default {
         minorTicks: { description: 'Шаг сетки по оси X' },
         step: { description: 'Шаг, с которым добавляются подписи оси X' },
         keys: { description: 'Массив ключей', table: { disable: true } },
-        start: { control: 'select', options: ['auto', 'dataMin'], defaultValue: 'dataMin' },
-        labels: { description: 'Названия линий, показываются во всплывающей подсказке' }
+        start: { control: 'date', description: 'Ось X, начальная дата' },
+        finish: { control: 'date', description: 'Ось X, конечная дата' },
+        labels: { description: 'Названия линий, показываются во всплывающей подсказке' },
+        legend: { description: 'Показывать всплывающую подсказку' },
+        tooltip: { description: 'Показывать легенду' },
+        min: {description: 'Ось Y, минимальное значение'},
+        max: {description: 'Ось Y, максимальное значение'},
+        colors: {description: 'Цвета графиков'},
     },
 } as ComponentMeta<typeof LineChart>;
 
