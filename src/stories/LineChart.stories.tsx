@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import rawData from '../data/severity_hour.json'
 import LineChart from '../components/LineChart/LineChart';
 import { initConverter } from '../utils/converter';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { InitialData } from '../types/RawData';
 
 export default {
@@ -17,8 +17,6 @@ export default {
         start: { control: 'date', description: 'Ось X, начальная дата' },
         finish: { control: 'date', description: 'Ось X, конечная дата' },
         labels: { description: 'Названия линий, показываются во всплывающей подсказке' },
-        legend: { description: 'Показывать всплывающую подсказку' },
-        tooltip: { description: 'Показывать легенду' },
         min: { description: 'Ось Y, минимальное значение' },
         max: { description: 'Ось Y, максимальное значение' },
         colors: { description: 'Цвета графиков' },
