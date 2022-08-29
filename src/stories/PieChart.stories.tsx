@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import PieChart from '../components/PieChart';
-import PieChartWithActive from '../components/PieChartWithActive';
-import pieRawData from '../data/pieData.json'
+import PieChart from '../components/PieChart/PieChart';
+import PieChartWithActive from '../components/PieChart/PieChartWithActive';
+import pieRawData from '../data/categoryData.json'
 import { preparePieData } from '../utils/converter';
 
 const pieData = preparePieData(pieRawData as [string, number][])

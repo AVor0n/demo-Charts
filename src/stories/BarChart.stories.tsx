@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import rawData from '../data/pieData.json'
+import rawData from '../data/categoryData.json'
 import BarChart from '../components/BarChart';
 import { preparePieData } from '../utils/converter';
 

@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import rawData from '../data/severity_hour.json'
-import LineChart from '../components/LineChart';
+import LineChart from '../components/LineChart/LineChart';
 import { initConverter } from '../utils/converter';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitialData } from '../types/RawData';

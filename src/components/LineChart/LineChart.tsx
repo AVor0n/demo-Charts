@@ -9,12 +9,12 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
-import { prepareData, initConverter } from '../utils/converter';
-import rawData from '../data/severity_hour.json';
+import { prepareData, initConverter } from '../../utils/converter';
+import rawData from '../../data/severity_hour.json';
 import CustomAxisTick from './CustomXAxisTick';
-import { PropsOfType } from '../types/PropsOfType';
-import { getTicks } from '../utils/charUtils';
-import { InitialData } from '../types/RawData';
+import { PropsOfType } from '../../types/PropsOfType';
+import { getTicks } from '../../utils/charUtils';
+import { InitialData } from '../../types/RawData';
 
 type Keys = PropsOfType<typeof rawData.rows[0], number>;
 interface LinearGraphProps {

@@ -10,7 +10,6 @@ const PieActiveSector: PieProps['activeShape'] = ({
     endAngle,
     fill,
     payload,
-    percent,
     value
 }) => {
     const RADIAN = Math.PI / 180;

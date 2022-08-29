@@ -6,17 +6,15 @@ import {
     ResponsiveContainer,
     Legend,
 } from "recharts";
-import rawData from '../data/pieData.json';
-import { preparePieData } from "../utils/converter";
+import { PieChartItem } from "../../types/ChartData";
 
 interface PieChartProps {
-    data?: Array<any>;
+    data: Array<PieChartItem>;
     colors?: string[];
     legend?: boolean;
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors, legend }) => {
-    const data = preparePieData(rawData as [string, number][])
+export const PieChart: FC<PieChartProps> = ({ colors, legend, data }) => {
 
     return (
         <ResponsiveContainer height={'100%'} width={'100%'}>
