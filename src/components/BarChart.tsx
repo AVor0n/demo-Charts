@@ -1,4 +1,3 @@
-import { format as formatDate } from 'date-fns';
 import { FC } from 'react';
 import {
     CartesianGrid,
@@ -9,27 +8,16 @@ import {
     Bar,
     ResponsiveContainer,
     Legend,
+    Cell,
 } from 'recharts';
-import { prepareData } from '../utils/converter';
-import rawData from '../data/severity_hour.json';
-import { PropsOfType } from '../types/PropsOfType';
-import { getTicks, trimData } from '../utils/charUtils';
-import { InitialData } from '../types/RawData';
-import CustomXAxisTick from './CustomXAxisTick';
-import CustomYAxisTick from './CustomYAxisTick';
+import { Payload } from 'recharts/types/component/DefaultLegendContent';
+import { PieChartItem } from '../types/ChartData';
 
-type Keys = PropsOfType<typeof rawData.rows[0], number>;
 interface BarChartProps {
-    format?: string;
-    step?: number;
-    minorTicks?: number;
     labels?: string[];
-    keys: Keys[];
-    start?: number;
-    finish?: number;
     min?: number | 'auto' | 'dataMin';
     max?: number | 'auto' | 'dataMax';
-    data: InitialData;
+    data: Array<PieChartItem>;
     colors?: string[];
     layout: 'vertical' | 'horizontal';
     tooltip?: boolean;
@@ -37,71 +25,41 @@ interface BarChartProps {
 }
 
 const BarChart: FC<BarChartProps> = ({
-    start,
-    finish,
     min,
     max,
-    step,
-    minorTicks,
-    format,
     labels,
-    keys,
     colors,
     layout,
     data,
     legend,
     tooltip,
 }) => {
-    if (start || finish) {
-        data = trimData(data, start ?? data.times[0], finish ?? data.times.at(-1)!);
-    }
-    const dataset = prepareData({ ...data });
-
-    start ??= data.times[0];
-    finish ??= data.times.at(-1)!;
-    const offset = (data.times[1] - data.times[0]) / 2;
-
-    min ||= typeof min !== 'number' ? Math.min(...data.datasets[0]) : min;
-    max ||= typeof max !== 'number' ? Math.max(...data.datasets[0]) : max;
-
-    const [TimeAxis, DataAxis] = layout === 'horizontal' ? [XAxis, YAxis] : [YAxis, XAxis];
-    const CustomAxisTick = layout === 'horizontal' ? CustomXAxisTick : CustomYAxisTick;
-
+    min ||= typeof min !== 'number' ? Math.min(...data.map(item => item.value)) : min;
+    max ||= typeof max !== 'number' ? Math.max(...data.map(item => item.value)) : max;
+    const [CategoryAxis, ValueAxis] = layout === 'horizontal' ? [XAxis, YAxis] : [YAxis, XAxis];
+    const legendData: Payload[] = data.map((item, idx) => ({
+        value: labels?.[idx] ?? item.name,
+        type: 'rect',
+        id: item.name,
+        color: colors![idx % colors?.length!]
+    }))
     return (
         <ResponsiveContainer width={'100%'} height={400}>
-            <RechartsBarChart data={dataset} layout={layout}>
+            <RechartsBarChart data={data} layout={layout}>
                 <CartesianGrid strokeDasharray="5 5" />
-                <TimeAxis
-                    dataKey="time"
-                    domain={[start - offset, finish + offset]}
-                    allowDataOverflow
-                    interval={0}
-                    tickSize={0}
-                    tick={<CustomAxisTick step={step || 1} layout={layout} />}
-                    ticks={getTicks(data.times, minorTicks || step || 1)}
-                    tickFormatter={(timestamp: number) => formatDate(new Date(timestamp), format!)}
-                    {...(layout === 'vertical' ? { width: 130 } : {})}
-                />
-                <DataAxis type="number" domain={[min, max]} allowDataOverflow />
-                {tooltip && (
-                    <Tooltip
-                        labelFormatter={(timestamp: number) =>
-                            formatDate(new Date(timestamp), format!)
-                        }
-                    />
-                )}
-                {legend && <Legend />}
-                {keys.map((key, idx) => (
-                    <Bar
-                        layout="vertical"
-                        type="monotone"
-                        dataKey={key}
-                        stackId={0}
-                        key={key}
-                        name={labels?.[idx] ?? data.keys[idx]}
-                        fill={colors![idx % colors!.length]}
-                    />
-                ))}
+                <CategoryAxis dataKey='name' type='category' tickFormatter={(v, idx) => labels?.[idx] ?? v}/>
+                <ValueAxis type="number" dataKey='value' domain={[min, max]} allowDataOverflow />
+                {tooltip && <Tooltip formatter={(v: PieChartItem['value']) => [v]} />}
+                {legend && <Legend payload={legendData} />}
+                <Bar dataKey='value'>
+                    {
+                        Object.entries(data).map(([key], idx) => (
+                            <Cell key={`cell-${idx}`}
+                                name={labels?.[idx] ?? key}
+                                fill={colors![idx % colors!.length]} />
+                        ))
+                    }
+                </Bar>
             </RechartsBarChart>
         </ResponsiveContainer>
     );
@@ -112,10 +70,6 @@ export default BarChart;
 BarChart.defaultProps = {
     min: 'auto',
     max: 'auto',
-    format: 'dd MMM yyyy',
-    minorTicks: 1,
-    step: 1,
-    keys: [],
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
     layout: 'horizontal',
     tooltip: true,
