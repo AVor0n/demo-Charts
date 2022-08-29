@@ -4,6 +4,7 @@ import {
     Pie,
     Cell,
     ResponsiveContainer,
+    Legend,
 } from "recharts";
 import rawData from '../data/pieData.json';
 import { preparePieData } from "../utils/converter";
@@ -11,14 +12,16 @@ import { preparePieData } from "../utils/converter";
 interface PieChartProps {
     data?: Array<any>;
     colors?: string[];
+    legend?: boolean;
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors }) => {
+export const PieChart: FC<PieChartProps> = ({ colors, legend }) => {
     const data = preparePieData(rawData as [string, number][])
 
     return (
         <ResponsiveContainer height={'100%'} width={'100%'}>
             <RechartsPieChart>
+                {legend && <Legend/>}
                 <Pie
                     data={data}
                     cx="50%"
@@ -40,4 +43,5 @@ export default PieChart;
 
 PieChart.defaultProps = {
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
+    legend: true,
 };

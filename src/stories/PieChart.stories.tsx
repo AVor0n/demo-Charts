@@ -12,6 +12,7 @@ export default {
     argTypes: {
         data: { table: { disable: true } },
         colors: {description: 'Цвета графиков'},
+        legend: {description: 'Показать легенду'}
     },
 } as ComponentMeta<typeof PieChart>;
 
@@ -25,10 +26,11 @@ export const Base = Template.bind({});
 Base.args = {
     data: pieData,
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
+    legend: true,
 };
 
 const TemplateWithActive: ComponentStory<typeof PieChartWithActive> = args => (
-    <div style={{ width: 500, height: 500, margin: 'auto' }}>
+    <div style={{ width: 500, height: 400, margin: 'auto' }}>
         <PieChartWithActive {...args} />
     </div>
 );
@@ -37,4 +39,5 @@ export const WithActiveSector = TemplateWithActive.bind({});
 WithActiveSector.args = {
     data: pieData,
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
+    legend: true,
 };

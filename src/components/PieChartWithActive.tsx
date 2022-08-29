@@ -4,28 +4,31 @@ import {
     Pie,
     Cell,
     ResponsiveContainer,
+    Legend,
 } from "recharts";
 import PieActiveSector from "./PieActiveSector";
 
 interface PieChartProps {
     data: Array<any>;
     colors?: string[];
+    legend?: boolean;
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors, data }) => {
+export const PieChart: FC<PieChartProps> = ({ colors, data, legend }) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
         <ResponsiveContainer height={'100%'} width={'100%'}>
             <RechartsPieChart>
+                {legend && <Legend />}
                 <Pie
                     activeIndex={activeIndex}
                     activeShape={PieActiveSector}
                     data={data}
                     cx="50%"
                     cy="50%"
-                    innerRadius={'28%'}
-                    outerRadius={'40%'}
+                    innerRadius={'45%'}
+                    outerRadius={'60%'}
                     paddingAngle={3}
                     dataKey="value"
                     onMouseEnter={(_, idx) => setActiveIndex(idx)}
@@ -43,4 +46,5 @@ export default PieChart;
 
 PieChart.defaultProps = {
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
+    legend: true,
 };
