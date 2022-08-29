@@ -1,34 +1,37 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
     PieChart as RechartsPieChart,
     Pie,
     Cell,
     ResponsiveContainer,
 } from "recharts";
-import rawData from '../data/pieData.json';
-import { preparePieData } from "../utils/converter";
+import PieActiveSector from "./PieActiveSector";
 
 interface PieChartProps {
-    data?: Array<any>;
+    data: Array<any>;
     colors?: string[];
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors }) => {
-    const data = preparePieData(rawData as [string, number][])
+export const PieChart: FC<PieChartProps> = ({ colors, data }) => {
+    const [activeIndex, setActiveIndex] = useState(0);
 
     return (
         <ResponsiveContainer height={'100%'} width={'100%'}>
             <RechartsPieChart>
                 <Pie
+                    activeIndex={activeIndex}
+                    activeShape={PieActiveSector}
                     data={data}
                     cx="50%"
                     cy="50%"
-                    label
-                    outerRadius={'50%'}
+                    innerRadius={'28%'}
+                    outerRadius={'40%'}
+                    paddingAngle={3}
                     dataKey="value"
+                    onMouseEnter={(_, idx) => setActiveIndex(idx)}
                 >
                     {data.map((_entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors![index % colors!.length]}/>
+                        <Cell key={`cell-${index}`} fill={colors![index % colors!.length]} />
                     ))}
                 </Pie>
             </RechartsPieChart>
