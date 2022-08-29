@@ -1,5 +1,5 @@
 import { format as formatDate } from 'date-fns';
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import {
     CartesianGrid,
     Line,
@@ -29,6 +29,7 @@ interface LinearGraphProps {
     max?: number | 'auto' | 'dataMax';
     data: InitialData;
     colors?: string[];
+    updateInterval?: number
 }
 
 const LineChart: FC<LinearGraphProps> = ({
@@ -43,7 +44,21 @@ const LineChart: FC<LinearGraphProps> = ({
     keys,
     colors,
     data,
+    updateInterval,
 }) => {
+    const [, update] = useState(0); // для принудительной перерисовки графика по таймеру
+    const [timerId, setTimerId] = useState<number>()
+    useEffect(() => {
+        if (updateInterval) {
+            setTimerId(Number(setInterval(() => {
+                update(Math.random())
+            }, updateInterval)))
+        } else {
+            clearInterval(timerId)
+        }
+        return clearInterval(timerId)
+    }, [updateInterval])
+
     const dataset = prepareData({ ...data });
 
     min = min === 'dataMin' ? Math.min(...data.datasets[0]) : min ?? 'auto';
@@ -73,11 +88,11 @@ const LineChart: FC<LinearGraphProps> = ({
                 />
                 {keys.map((key, idx) => (
                     <Line
-                        type="monotone"
                         dataKey={key}
                         name={labels?.[idx] ?? data.keys[idx]}
                         stroke={colors![idx % colors!.length]}
                         key={key}
+                        isAnimationActive={false}
                     />
                 ))}
             </RechartsLineChart>
