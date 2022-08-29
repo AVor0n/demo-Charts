@@ -1,5 +1,5 @@
 import { format as formatDate } from 'date-fns';
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 import {
     CartesianGrid,
     Line,
@@ -47,16 +47,16 @@ const LineChart: FC<LinearGraphProps> = ({
     updateInterval,
 }) => {
     const [, update] = useState(0); // для принудительной перерисовки графика по таймеру
-    const [timerId, setTimerId] = useState<number>()
+    const timerIdRef = useRef<ReturnType<typeof setInterval>>()
     useEffect(() => {
+        if (timerIdRef.current) clearInterval(timerIdRef.current)
         if (updateInterval) {
-            setTimerId(Number(setInterval(() => {
-                update(Math.random())
-            }, updateInterval)))
-        } else {
-            clearInterval(timerId)
+            timerIdRef.current = setInterval(
+                () => update(Math.random()),
+                updateInterval
+            )
         }
-        return clearInterval(timerId)
+        return () => clearInterval(timerIdRef.current)
     }, [updateInterval])
 
     const dataset = prepareData({ ...data });

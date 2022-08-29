@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import rawData from '../data/severity_hour.json'
 import LineChart from '../components/LineChart';
 import { initConverter } from '../utils/converter';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitialData } from '../types/RawData';
 
 export default {
@@ -39,16 +39,20 @@ const addRandomItem = (data: InitialData): InitialData => {
 
 const Template: ComponentStory<typeof LineChart> = args => {
     let { data, updateInterval } = args
-    const [timerId, setTimerId] = useState<number>();
+    const initData = structuredClone(data);
+    const timerRef = useRef<ReturnType<typeof setInterval>>()
     useEffect(() => {
-        setTimerId(Number(setInterval(() => {
-            data = addRandomItem(data)
-        }, updateInterval)))
-
-        return () => clearInterval(timerId)
+        if (timerRef.current) clearInterval(timerRef.current)
+        if (updateInterval) {
+            timerRef.current = setInterval(
+                () => {data = addRandomItem(data)},
+                updateInterval
+            )
+        }
+        return () => clearInterval(timerRef.current)
     }, [updateInterval])
 
-    return <LineChart  {...args} data={data} />
+    return <LineChart {...args} data={updateInterval ? data : initData} />
 };
 
 export const Base = Template.bind({});
