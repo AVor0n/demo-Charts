@@ -8,6 +8,7 @@
     border-right: none;
     min-width: 20px;
     font-weight: normal;
+    white-space: nowrap;
 }
 
 .table__cell-inner{
