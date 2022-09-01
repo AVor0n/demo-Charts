@@ -1,7 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import rawData from '../data/categoryData.json'
-import BarChart from '../components/BarChart';
-import { preparePieData } from '../utils/converter';
+import { BarChart } from '../components';
+import { data } from '../data';
 
 export default {
     title: 'Charts/BarChart',
@@ -11,10 +10,10 @@ export default {
         labels: { description: 'Названия линий, показываются во всплывающей подсказке' },
         legend: { description: 'Показывать всплывающую подсказку' },
         tooltip: { description: 'Показывать легенду' },
-        layout: {description: 'Направление отображения графика'},
-        min: {description: 'Ось Y, минимальное значение'},
-        max: {description: 'Ось Y, максимальное значение'},
-        colors: {description: 'Цвета графиков'}
+        layout: { description: 'Направление отображения графика' },
+        min: { description: 'Ось Y, минимальное значение' },
+        max: { description: 'Ось Y, максимальное значение' },
+        colors: { description: 'Цвета графиков' },
     },
 } as ComponentMeta<typeof BarChart>;
 
@@ -22,7 +21,7 @@ const Template: ComponentStory<typeof BarChart> = args => <BarChart {...args} />
 
 export const Horizontal = Template.bind({});
 Horizontal.args = {
-    data: preparePieData(rawData as [string, number][]),
+    data,
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
     labels: ['high', 'mid', 'low', 'other'],
     layout: 'horizontal',
@@ -32,7 +31,7 @@ Horizontal.args = {
 
 export const Vertical = Template.bind({});
 Vertical.args = {
-    data: preparePieData(rawData as [string, number][]),
+    data,
     colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
     labels: ['high', 'mid', 'low', 'other'],
     layout: 'vertical',

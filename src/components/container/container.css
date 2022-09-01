@@ -1,0 +1,12 @@
+.container{
+    border: 2px solid silver;
+}
+
+.container__item{
+    padding: 10px;
+    min-width: 300px;
+}
+
+.container__separator{
+    border: 1px solid silver;
+}
