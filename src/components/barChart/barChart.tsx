@@ -13,7 +13,7 @@ import {
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
 import { IChartCategoryItem } from '../../types';
 
-interface BarChartProps {
+export interface BarChartProps {
     labels?: string[];
     min?: number | 'auto';
     max?: number | 'auto';

@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useEffect, useRef } from 'react';
 import { LineChart, LineChartProps } from '../components';
-import { datasets, times } from '../data/data';
+import { timeChartData } from '../data';
 
 export default {
     title: 'Charts/LineChart',
@@ -61,12 +61,14 @@ const Template: ComponentStory<typeof LineChart> = args => {
     );
 };
 
+const {datasets, times, colors, labels} = timeChartData;
+
 export const Base = Template.bind({});
 Base.args = {
     datasets,
     times,
-    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
-    labels: ['high', 'mid', 'low', 'other'],
+    colors,
+    labels,
     format: 'dd.MM HH:mm',
     minorTicks: 1,
     step: 5,
@@ -76,8 +78,8 @@ export const WithAutoUpdate = Template.bind({});
 WithAutoUpdate.args = {
     datasets,
     times,
-    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
-    labels: ['high', 'mid', 'low', 'other'],
+    colors,
+    labels,
     updateInterval: 2000,
     format: 'dd.MM HH:mm',
     minorTicks: 1,

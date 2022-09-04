@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { BarChart } from '../components';
-import { data } from '../data';
+import { categoryChartData } from '../data';
 
 export default {
     title: 'Charts/BarChart',
@@ -18,12 +18,11 @@ export default {
 } as ComponentMeta<typeof BarChart>;
 
 const Template: ComponentStory<typeof BarChart> = args => <BarChart {...args} />;
-
+const {data, colors} = categoryChartData;
 export const Horizontal = Template.bind({});
 Horizontal.args = {
     data,
-    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
-    labels: ['high', 'mid', 'low', 'other'],
+    colors,
     layout: 'horizontal',
     tooltip: true,
     legend: false,
@@ -32,8 +31,7 @@ Horizontal.args = {
 export const Vertical = Template.bind({});
 Vertical.args = {
     data,
-    colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
-    labels: ['high', 'mid', 'low', 'other'],
+    colors,
     layout: 'vertical',
     tooltip: true,
     legend: false,

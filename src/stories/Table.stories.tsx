@@ -1,8 +1,8 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { format } from 'date-fns';
-import { FC, PropsWithChildren } from 'react';
-import { Table } from '../components';
-import { data, datasets, times } from '../data';
+import { ColorCell, Table } from '../components';
+import { categoryChartData, timeChartData } from '../data';
+import type { CategoryChartData, TimeChartData } from '../types';
 
 export default {
     title: 'Charts/Table',
@@ -12,23 +12,9 @@ export default {
 
 const Template: ComponentStory<typeof Table> = args => <Table {...args} />;
 
-const ColorCell: FC<PropsWithChildren<{ color: string }>> = ({ color, children }) => (
-    <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center' }}>
-        <div
-            style={{
-                width: 10,
-                height: 10,
-                backgroundColor: color,
-                border: '1px solid grey',
-            }}
-        />
-        {children}
-    </div>
-);
-
 const colors = ['red', 'orange', 'green', 'blue'];
 
-const generateCategoryDataTable = (d: typeof data) => {
+const generateCategoryDataTable = (d: CategoryChartData['data']) => {
     const dataSum = d.reduce((acc, it) => acc + it.value, 0);
 
     const header = ['', 'Категория', 'Количество', ''];
@@ -47,9 +33,9 @@ const generateCategoryDataTable = (d: typeof data) => {
     };
 };
 export const Base = Template.bind({});
-Base.args = generateCategoryDataTable(data);
+Base.args = generateCategoryDataTable(categoryChartData.data);
 
-const generateMultiColumnDataTable = (datasets: number[][], times: number[], labels: string[]) => {
+const generateMultiColumnDataTable = ({datasets, times, labels}: TimeChartData) => {
     const header = [
         'time',
         ...datasets.map((_, idx) => <ColorCell color={colors[idx]}>{labels[idx]}</ColorCell>),
@@ -65,4 +51,4 @@ const generateMultiColumnDataTable = (datasets: number[][], times: number[], lab
     };
 };
 export const MultiColumn = Template.bind({});
-MultiColumn.args = generateMultiColumnDataTable(datasets, times, ['high', 'medium', 'low']);
+MultiColumn.args = generateMultiColumnDataTable(timeChartData);
