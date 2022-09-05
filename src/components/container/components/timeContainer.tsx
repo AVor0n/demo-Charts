@@ -49,7 +49,7 @@ export const TimeContainer: FC<TimeContainerProps> = ({
                     <LineChart {...data} {...chartProps} />
                 </div>
             )}
-            <div className="container__separator" />
+            {!hideChart && !hideTable && <div className="container__separator" />}
             {!hideTable && (
                 <div className="container__item">
                     <Table {...chart2TableTimeData(data)} />

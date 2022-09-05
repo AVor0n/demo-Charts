@@ -13,4 +13,8 @@ const TimeTemplate: ComponentStory<typeof TimeContainer> = args => <TimeContaine
 export const timeContainer = TimeTemplate.bind({});
 timeContainer.args = {
     data: timeChartData,
+    chartProps: {
+        minorTicks: 5,
+        step: 2,
+    }
 };

@@ -56,7 +56,7 @@ export const LineChart: FC<LineChartProps> = ({
   const dataset = prepareData(datasets, times);
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={'100%'}>
       <RechartsLineChart data={dataset}>
         <CartesianGrid strokeDasharray="5 5" />
         <XAxis
@@ -71,13 +71,15 @@ export const LineChart: FC<LineChartProps> = ({
           tickFormatter={(timestamp: number) => DateUtils.format(new Date(timestamp), format!)} />
         <YAxis type="number" domain={[min!, max!]} allowDataOverflow />
         <Tooltip
-          labelFormatter={(timestamp: number) => DateUtils.format(new Date(timestamp), format!)} />
+          labelFormatter={(timestamp: number) => DateUtils.format(new Date(timestamp), format!)}
+          isAnimationActive={false} />
         {[...datasets.keys()].map((key, idx) => (
           <Line
             dataKey={key}
             name={labels?.[idx] ?? idx.toString()}
             stroke={colors![idx % colors!.length]}
             key={key}
+            dot={false}
             isAnimationActive={false} />
         ))}
       </RechartsLineChart>

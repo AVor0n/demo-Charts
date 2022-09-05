@@ -43,13 +43,13 @@ export const BarChart: FC<BarChartProps> = ({
     }));
 
     return (
-        <ResponsiveContainer  width={'100%'} height={300}>
+        <ResponsiveContainer width={'100%'} height={'100%'}>
             <RechartsBarChart data={data} layout={layout}>
                 <CartesianGrid strokeDasharray="5 5" />
                 <CategoryAxis dataKey="name" type="category" />
                 <ValueAxis type="number" dataKey="value" domain={[min!, max!]} allowDataOverflow />
 
-                {tooltip && <Tooltip formatter={(v: IChartCategoryItem['value']) => [v]} />}
+                {tooltip && <Tooltip formatter={(v: IChartCategoryItem['value']) => [v]} isAnimationActive={false} />}
                 {legend && <Legend payload={legendData} />}
 
                 <Bar dataKey="value">
