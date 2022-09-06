@@ -9,7 +9,7 @@ interface CategoryContainerProps {
     hideTable?: boolean;
     hideChart?: boolean;
     data: CategoryChartData;
-    chartProps: Omit<BarChartProps, keyof CategoryChartData>;
+    chartProps?: Omit<BarChartProps, keyof CategoryChartData>;
     layout?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 }
 
@@ -51,7 +51,7 @@ export const CategoryContainer: FC<CategoryContainerProps> = ({
                     <BarChart {...data} {...chartProps} />
                 </div>
             )}
-            <div className="container__separator" />
+            {!hideChart && !hideTable && <div className="container__separator" />}
             {!hideTable && (
                 <div className="container__item container__table">
                     <Table {...chart2TableCategoryData(data)} />

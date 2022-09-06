@@ -10,7 +10,7 @@ interface TimeContainerProps {
     hideTable?: boolean;
     hideChart?: boolean;
     data: TimeChartData;
-    chartProps: Omit<LineChartProps, keyof TimeChartData>;
+    chartProps?: Omit<LineChartProps, keyof TimeChartData>;
     layout?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 }
 
