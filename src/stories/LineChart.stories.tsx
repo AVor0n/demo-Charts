@@ -26,7 +26,7 @@ type LineChartData = {
     datasets: LineChartProps['datasets'],
     times: LineChartProps['times']
 }
-const addRandomItem = ({datasets, times}: LineChartData): LineChartData => {
+const addRandomItem = ({ datasets, times }: LineChartData): LineChartData => {
     datasets.forEach(it => {
         it.shift();
         it.push(Math.floor(Math.random() * 5000));
@@ -34,7 +34,7 @@ const addRandomItem = ({datasets, times}: LineChartData): LineChartData => {
     const timeDiff = times[1] - times[0];
     times = times.slice(1);
     times.push(times.at(-1)! + timeDiff);
-    return {datasets, times};
+    return { datasets, times };
 };
 
 const Template: ComponentStory<typeof LineChart> = args => {
@@ -46,23 +46,24 @@ const Template: ComponentStory<typeof LineChart> = args => {
         if (timerRef.current) clearInterval(timerRef.current);
         if (updateInterval) {
             timerRef.current = setInterval(() => {
-                ({datasets, times} = addRandomItem({datasets, times}));
+                ({ datasets, times } = addRandomItem({ datasets, times }));
             }, updateInterval);
         }
         return () => clearInterval(timerRef.current);
     }, [updateInterval]);
 
     return (
-        <LineChart
-            {...args}
-            datasets={updateInterval ? datasets : initDatasets}
-            times={updateInterval ? times : initTimes}
-        />
+        <div style={{height: 300}}>
+            <LineChart
+                {...args}
+                datasets={updateInterval ? datasets : initDatasets}
+                times={updateInterval ? times : initTimes}
+            />
+        </div>
     );
 };
 
-const {datasets, times, colors, labels} = timeChartData;
-
+const { datasets, times, colors, labels } = timeChartData;
 export const Base = Template.bind({});
 Base.args = {
     datasets,

@@ -15,7 +15,7 @@ export default {
 const { data, colors } = categoryChartData;
 
 const Template: ComponentStory<typeof PieChart> = args => (
-    <div style={{ width: 500, height: 500, margin: 'auto' }}>
+    <div style={{ width: 300, height: 300, margin: 'auto' }}>
         <PieChart {...args} />
     </div>
 );

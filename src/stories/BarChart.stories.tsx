@@ -17,8 +17,12 @@ export default {
     },
 } as ComponentMeta<typeof BarChart>;
 
-const Template: ComponentStory<typeof BarChart> = args => <BarChart {...args} />;
-const {data, colors} = categoryChartData;
+const Template: ComponentStory<typeof BarChart> = args => (
+    <div style={{ height: 300 }}>
+        <BarChart {...args} />
+    </div>
+);
+const { data, colors } = categoryChartData;
 export const Horizontal = Template.bind({});
 Horizontal.args = {
     data,
