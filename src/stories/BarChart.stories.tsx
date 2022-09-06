@@ -26,17 +26,21 @@ const { data, colors } = categoryChartData;
 export const Horizontal = Template.bind({});
 Horizontal.args = {
     data,
-    colors,
     layout: 'horizontal',
     tooltip: true,
     legend: false,
+    min: 'auto',
+    max: 'auto',
+    colors,
 };
 
 export const Vertical = Template.bind({});
 Vertical.args = {
     data,
-    colors,
     layout: 'vertical',
     tooltip: true,
     legend: false,
+    min: 'auto',
+    max: 'auto',
+    colors,
 };

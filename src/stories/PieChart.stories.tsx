@@ -23,6 +23,6 @@ const Template: ComponentStory<typeof PieChart> = args => (
 export const Base = Template.bind({});
 Base.args = {
     data,
-    colors,
     legend: true,
+    colors,
 };

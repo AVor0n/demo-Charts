@@ -5,7 +5,10 @@ import { categoryChartData } from '../data';
 export default {
     title: 'Containers/CategoryContainer',
     component: CategoryContainer,
-    argTypes: {},
+    argTypes: {
+        data: { table: { disable: true } },
+        footer: { table: { disable: true } },
+    },
 } as ComponentMeta<typeof CategoryContainer>;
 
 const CategoryTemplate: ComponentStory<typeof CategoryContainer> = args => <CategoryContainer {...args} />;
@@ -13,4 +16,7 @@ const CategoryTemplate: ComponentStory<typeof CategoryContainer> = args => <Cate
 export const categoryContainer = CategoryTemplate.bind({});
 categoryContainer.args = {
     data: categoryChartData,
+    layout: 'row',
+    hideChart: false,
+    hideTable: false,
 };

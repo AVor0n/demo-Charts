@@ -8,10 +8,10 @@ export default {
     component: LineChart,
     argTypes: {
         format: { control: 'text', description: 'Формат значений оси X' },
-        data: { table: { disable: true } },
+        datasets: { table: { disable: true } },
+        times: { table: { disable: true } },
         minorTicks: { description: 'Шаг сетки по оси X' },
         step: { description: 'Шаг, с которым добавляются подписи оси X' },
-        keys: { description: 'Массив ключей' },
         start: { control: 'date', description: 'Ось X, начальная дата' },
         finish: { control: 'date', description: 'Ось X, конечная дата' },
         labels: { description: 'Названия линий, показываются во всплывающей подсказке' },
@@ -68,21 +68,29 @@ export const Base = Template.bind({});
 Base.args = {
     datasets,
     times,
+    format: 'dd.MM HH:mm',
+    step: 5,
+    minorTicks: 1,
+    start: 'dataMin',
+    finish: 'dataMax',
+    min: 'auto',
+    max: 'auto',
     colors,
     labels,
-    format: 'dd.MM HH:mm',
-    minorTicks: 1,
-    step: 5,
 };
 
 export const WithAutoUpdate = Template.bind({});
 WithAutoUpdate.args = {
     datasets,
     times,
-    colors,
-    labels,
     updateInterval: 2000,
     format: 'dd.MM HH:mm',
-    minorTicks: 1,
     step: 5,
+    minorTicks: 1,
+    start: 'dataMin',
+    finish: 'dataMax',
+    min: 'auto',
+    max: 'auto',
+    colors,
+    labels,
 };

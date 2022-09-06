@@ -1,12 +1,21 @@
 .container {
     border: 2px solid silver;
     height: 400px;
+
 }
 
 .container__item {
     padding: 10px;
-    width: 50%;
     overflow: auto;
+}
+
+.container__table {
+    flex-grow: 0;
+}
+
+.container__chart {
+    min-height: 50%;
+    flex-grow: 1;
 }
 
 .container__separator {

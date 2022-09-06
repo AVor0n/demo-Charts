@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react';
 import { ColorCell } from '.';
+import { Table } from '../..';
 import { CategoryChartData } from '../../../types';
-import { Table } from '../../table';
 import { BarChart, BarChartProps } from '../../barChart';
 import '../container.css';
 
@@ -47,13 +47,13 @@ export const CategoryContainer: FC<CategoryContainerProps> = ({
     return (
         <div className="container" style={style}>
             {!hideChart && (
-                <div className="container__item">
+                <div className="container__item container__chart">
                     <BarChart {...data} {...chartProps} />
                 </div>
             )}
             <div className="container__separator" />
             {!hideTable && (
-                <div className="container__item">
+                <div className="container__item container__table">
                     <Table {...chart2TableCategoryData(data)} />
                 </div>
             )}

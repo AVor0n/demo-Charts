@@ -2,7 +2,7 @@ import { CSSProperties, FC } from 'react';
 import { format } from 'date-fns';
 import { LineChart, LineChartProps } from '../../lineChart';
 import { TimeChartData } from '../../../types';
-import { Table } from '../../table';
+import { Table } from '../..';
 import { ColorCell } from '.';
 import '../container.css';
 
@@ -45,13 +45,13 @@ export const TimeContainer: FC<TimeContainerProps> = ({
     return (
         <div className="container" style={style}>
             {!hideChart && (
-                <div className="container__item">
+                <div className="container__item container__chart">
                     <LineChart {...data} {...chartProps} />
                 </div>
             )}
             {!hideChart && !hideTable && <div className="container__separator" />}
             {!hideTable && (
-                <div className="container__item">
+                <div className="container__item container__table">
                     <Table {...chart2TableTimeData(data)} />
                 </div>
             )}

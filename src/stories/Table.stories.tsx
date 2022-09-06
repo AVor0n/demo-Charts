@@ -7,7 +7,11 @@ import type { CategoryChartData, TimeChartData } from '../types';
 export default {
     title: 'Charts/Table',
     component: Table,
-    argTypes: {},
+    argTypes: {
+        header: { table: { disable: true } },
+        body: { table: { disable: true } },
+        footer: { table: { disable: true } },
+    },
 } as ComponentMeta<typeof Table>;
 
 const Template: ComponentStory<typeof Table> = args => <Table {...args} />;
