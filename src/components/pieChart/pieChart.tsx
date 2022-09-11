@@ -1,26 +1,25 @@
 import React, { FC } from 'react';
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
-import { IChartCategoryItem } from '../../types';
+import { CategoryChartData } from '../../types/types';
 
 interface PieChartProps {
-  data: IChartCategoryItem[];
-  colors?: string[];
+  data: CategoryChartData
   legend?: boolean;
 }
 
-export const PieChart: FC<PieChartProps> = ({ colors, legend, data }) => (
+export const PieChart: FC<PieChartProps> = ({ legend, data }) => (
   <ResponsiveContainer height="100%" width="100%">
     <RechartsPieChart>
       {legend && <Legend />}
       <Pie
-        data={data}
+        data={data.data}
         cx="50%"
         cy="50%"
         label
         outerRadius="50%"
         dataKey="value">
-        {data.map(({ name }, index) => (
-          <Cell key={name} fill={colors![index % colors!.length]} />
+        {data.data.map(({ name }, index) => (
+          <Cell key={name} fill={data.colors[index % data.colors.length]} />
         ))}
       </Pie>
     </RechartsPieChart>
@@ -28,6 +27,5 @@ export const PieChart: FC<PieChartProps> = ({ colors, legend, data }) => (
 );
 
 PieChart.defaultProps = {
-  colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
   legend: true,
 };

@@ -13,7 +13,6 @@ export default {
         layout: { description: 'Направление отображения графика' },
         min: { description: 'Ось Y, минимальное значение' },
         max: { description: 'Ось Y, максимальное значение' },
-        colors: { description: 'Цвета графиков' },
     },
 } as ComponentMeta<typeof BarChart>;
 
@@ -22,25 +21,22 @@ const Template: ComponentStory<typeof BarChart> = args => (
         <BarChart {...args} />
     </div>
 );
-const { data, colors } = categoryChartData;
 export const Horizontal = Template.bind({});
 Horizontal.args = {
-    data,
+    data: categoryChartData,
     layout: 'horizontal',
     tooltip: true,
     legend: false,
     min: 'auto',
     max: 'auto',
-    colors,
 };
 
 export const Vertical = Template.bind({});
 Vertical.args = {
-    data,
+    data: categoryChartData,
     layout: 'vertical',
     tooltip: true,
     legend: false,
     min: 'auto',
     max: 'auto',
-    colors,
 };

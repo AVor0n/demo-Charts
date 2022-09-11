@@ -1,9 +1,8 @@
 import { TimeChartData, CategoryChartData } from '../types/types';
 
-const colors = ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'];
+const colors = ['#ef476f', '#ffd166', '#06d6a0', '#118ab2', '#aaff66'];
 
 export const timeChartData: TimeChartData = {
-
     datasets: [
         [
             2178, 6425, 6480, 6486, 6489, 6501, 6302, 6546, 6575, 6500, 6486, 6465, 6469, 6487, 6754,

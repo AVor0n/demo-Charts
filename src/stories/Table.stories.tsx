@@ -1,6 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { format } from 'date-fns';
-import { ColorCell, Table } from '../components';
+import { Table } from '../components';
+import { ColorCell } from '../components/table/components/colorCell';
 import { categoryChartData, timeChartData } from '../data';
 import type { CategoryChartData, TimeChartData } from '../types';
 

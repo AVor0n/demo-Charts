@@ -1,32 +1,25 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useEffect, useRef } from 'react';
-import { LineChart, LineChartProps } from '../components';
+import { LineChart } from '../components';
 import { timeChartData } from '../data';
+import { TimeChartData } from '../types';
 
 export default {
     title: 'Charts/LineChart',
     component: LineChart,
     argTypes: {
         format: { control: 'text', description: 'Формат значений оси X' },
-        datasets: { table: { disable: true } },
-        times: { table: { disable: true } },
         minorTicks: { description: 'Шаг сетки по оси X' },
         step: { description: 'Шаг, с которым добавляются подписи оси X' },
         start: { control: 'date', description: 'Ось X, начальная дата' },
         finish: { control: 'date', description: 'Ось X, конечная дата' },
-        labels: { description: 'Названия линий, показываются во всплывающей подсказке' },
         min: { description: 'Ось Y, минимальное значение' },
         max: { description: 'Ось Y, максимальное значение' },
-        colors: { description: 'Цвета графиков' },
         updateInterval: { description: 'Период обновления графика, мс', type: 'number' },
     },
 } as ComponentMeta<typeof LineChart>;
 
-type LineChartData = {
-    datasets: LineChartProps['datasets'],
-    times: LineChartProps['times']
-}
-const addRandomItem = ({ datasets, times }: LineChartData): LineChartData => {
+const addRandomItem = ({ datasets, times }: TimeChartData) => {
     datasets.forEach(it => {
         it.shift();
         it.push(Math.floor(Math.random() * 5000));
@@ -38,15 +31,13 @@ const addRandomItem = ({ datasets, times }: LineChartData): LineChartData => {
 };
 
 const Template: ComponentStory<typeof LineChart> = args => {
-    let { datasets, times, updateInterval } = args;
-    const initDatasets = structuredClone(datasets);
-    const initTimes = structuredClone(times);
+    const { data, updateInterval } = args;
     const timerRef = useRef<ReturnType<typeof setInterval>>();
     useEffect(() => {
         if (timerRef.current) clearInterval(timerRef.current);
         if (updateInterval) {
             timerRef.current = setInterval(() => {
-                ({ datasets, times } = addRandomItem({ datasets, times }));
+                ({datasets: data.datasets, times: data.times} = addRandomItem(data));
             }, updateInterval);
         }
         return () => clearInterval(timerRef.current);
@@ -56,18 +47,15 @@ const Template: ComponentStory<typeof LineChart> = args => {
         <div style={{height: 300}}>
             <LineChart
                 {...args}
-                datasets={updateInterval ? datasets : initDatasets}
-                times={updateInterval ? times : initTimes}
+                data={updateInterval ? data : timeChartData}
             />
         </div>
     );
 };
 
-const { datasets, times, colors, labels } = timeChartData;
 export const Base = Template.bind({});
 Base.args = {
-    datasets,
-    times,
+    data: timeChartData,
     format: 'dd.MM HH:mm',
     step: 5,
     minorTicks: 1,
@@ -75,14 +63,11 @@ Base.args = {
     finish: 'dataMax',
     min: 'auto',
     max: 'auto',
-    colors,
-    labels,
 };
 
 export const WithAutoUpdate = Template.bind({});
 WithAutoUpdate.args = {
-    datasets,
-    times,
+    data: timeChartData,
     updateInterval: 2000,
     format: 'dd.MM HH:mm',
     step: 5,
@@ -91,6 +76,4 @@ WithAutoUpdate.args = {
     finish: 'dataMax',
     min: 'auto',
     max: 'auto',
-    colors,
-    labels,
 };

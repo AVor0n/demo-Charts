@@ -7,12 +7,9 @@ export default {
     component: PieChart,
     argTypes: {
         data: { table: { disable: true } },
-        colors: { description: 'Цвета графиков' },
         legend: { description: 'Показать легенду' },
     },
 } as ComponentMeta<typeof PieChart>;
-
-const { data, colors } = categoryChartData;
 
 const Template: ComponentStory<typeof PieChart> = args => (
     <div style={{ width: 300, height: 300, margin: 'auto' }}>
@@ -22,7 +19,6 @@ const Template: ComponentStory<typeof PieChart> = args => (
 
 export const Base = Template.bind({});
 Base.args = {
-    data,
+    data: categoryChartData,
     legend: true,
-    colors,
 };

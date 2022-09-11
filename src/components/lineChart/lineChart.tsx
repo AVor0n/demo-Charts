@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { TimeChartData } from '../../types';
 import { CustomXAxisTick } from './customXAxisTick';
 import { DateUtils, getTicks, prepareData } from './utils';
 
@@ -15,14 +16,11 @@ export interface LineChartProps {
   format?: string;
   step?: number;
   minorTicks?: number;
-  labels?: string[];
   start?: number | 'auto' | 'dataMin';
   finish?: number | 'auto' | 'dataMax';
   min?: number | 'auto' | 'dataMin';
   max?: number | 'auto' | 'dataMax';
-  datasets: number[][];
-  times: number[];
-  colors?: string[];
+  data: TimeChartData;
   updateInterval?: number;
 }
 
@@ -34,10 +32,7 @@ export const LineChart: FC<LineChartProps> = ({
   step,
   minorTicks,
   format,
-  labels,
-  colors,
-  datasets,
-  times,
+  data,
   updateInterval,
 }) => {
   const [, update] = useState(0); // для принудительной перерисовки графика по таймеру
@@ -53,7 +48,7 @@ export const LineChart: FC<LineChartProps> = ({
     return () => clearInterval(timerIdRef.current);
   }, [updateInterval]);
 
-  const dataset = prepareData(datasets, times);
+  const dataset = prepareData(data.datasets, data.times);
 
   return (
     <ResponsiveContainer width="100%" height={'100%'}>
@@ -62,22 +57,22 @@ export const LineChart: FC<LineChartProps> = ({
         <XAxis
           dataKey="time"
           type="number"
-          domain={[start ?? times[0], finish ?? times.at(-1)!]}
+          domain={[start ?? data.times[0], finish ?? data.times.at(-1)!]}
           allowDataOverflow
           tickSize={0}
           interval={0}
-          ticks={getTicks(times, minorTicks || step || 1)}
+          ticks={getTicks(data.times, minorTicks || step || 1)}
           tick={<CustomXAxisTick step={step || 1} />}
           tickFormatter={(timestamp: number) => DateUtils.format(new Date(timestamp), format!)} />
         <YAxis type="number" domain={[min!, max!]} allowDataOverflow />
         <Tooltip
           labelFormatter={(timestamp: number) => DateUtils.format(new Date(timestamp), format!)}
           isAnimationActive={false} />
-        {[...datasets.keys()].map((key, idx) => (
+        {[...data.datasets.keys()].map((key, idx) => (
           <Line
             dataKey={key}
-            name={labels?.[idx] ?? idx.toString()}
-            stroke={colors![idx % colors!.length]}
+            name={data.labels[idx]}
+            stroke={data.colors[idx % data.colors.length]}
             key={key}
             dot={false}
             isAnimationActive={false} />
@@ -95,5 +90,4 @@ LineChart.defaultProps = {
   step: 1,
   start: 'dataMin',
   finish: 'dataMax',
-  colors: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2'],
 };
